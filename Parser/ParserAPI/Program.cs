@@ -9,7 +9,7 @@ namespace ParserAPI
         static void Main(string[] args)
         {
             MainController controller = new MainController();
-            controller.ParseSummary();
+            controller.OneSummary();
             Console.ReadKey();
         }
     }

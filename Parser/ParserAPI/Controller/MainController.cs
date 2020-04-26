@@ -67,6 +67,174 @@ namespace ParserAPI.Controller
             }
         }
 
+        public Result ObjParser(HtmlNode node)
+        {
+            Result resultObj = new Result();
+            if (node != null)
+            {
+                var data_obj = node.InnerHtml;
+
+                if (String_ControlContent(data_obj))
+                {
+                    resultObj.IsSuccess = true;
+                    resultObj.Detail = resultObj.Success;
+                    resultObj.Content = data_obj;
+                    return resultObj;
+                }
+                else
+                {
+                    resultObj.IsSuccess = false;
+                    resultObj.Detail = "Object is Empty";
+                    resultObj.Content = null;
+                    return resultObj;
+                }
+
+            }
+            else
+            {
+                resultObj.IsSuccess = false;
+                resultObj.Detail = "Object Node is Empty";
+                resultObj.Content = null;
+                return resultObj;
+            }
+        }
+
+        public Result UrlParser(HtmlNode node)
+        {
+            Result resultObj = new Result();
+            if (node != null)
+            {
+                var data_url = node.GetAttributeValue("href", string.Empty);
+
+                if (String_ControlContent(data_url))
+                {
+                    resultObj.IsSuccess = true;
+                    resultObj.Detail = resultObj.Success;
+                    resultObj.Content = "https://www.kvkk.gov.tr" + data_url;
+                    return resultObj;
+                }
+                else
+                {
+                    resultObj.IsSuccess = false;
+                    resultObj.Detail = "Url is Empty";
+                    resultObj.Content = null;
+                    return resultObj;
+                }
+
+            }
+            else
+            {
+                resultObj.IsSuccess = false;
+                resultObj.Detail = "Url Node is Empty";
+                resultObj.Content = null;
+                return resultObj;
+            }
+        }
+
+        public Result ImageParser(HtmlNode node)
+        {
+            Result resultObj = new Result();
+            if (node != null)
+            {
+                var data_image_url = node.GetAttributeValue("src", string.Empty);
+
+                if (String_ControlContent(data_image_url))
+                {
+                    resultObj.IsSuccess = true;
+                    resultObj.Detail = resultObj.Success;
+                    resultObj.Content = "https://www.kvkk.gov.tr" + data_image_url;
+                    return resultObj;
+                }
+                else
+                {
+                    resultObj.IsSuccess = false;
+                    resultObj.Detail = "Url is Empty";
+                    resultObj.Content = null;
+                    return resultObj;
+                }
+
+            }
+            else
+            {
+                resultObj.IsSuccess = false;
+                resultObj.Detail = "Url Node is Empty";
+                resultObj.Content = null;
+                return resultObj;
+            }
+        }
+        public void OneSummary()
+        {
+            _url = new Uri(_adress.Summary);
+            _client.Encoding = System.Text.Encoding.UTF8;
+
+            string htmlContent = _client.DownloadString(_url);
+
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(htmlContent);
+            //doc parametre olarak ver
+            Summary sum = new Summary();
+
+            HtmlNode title_node = document.DocumentNode.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[1]/div/div[2]/h3");
+            var title_result = TitleParser(title_node);
+            if (title_result.IsSuccess)
+            {
+                sum.title = title_result.Content.ToString();
+
+            }
+            else
+            {
+                //Title Gelmedi. Hata Var..
+                Console.WriteLine(title_result.Detail);
+            }
+
+            HtmlNode date_node = document.DocumentNode.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[1]/div/div[2]/p[1]");
+            var date_result = ObjParser(date_node);
+            if (date_result.IsSuccess)
+            {
+                sum.date = date_result.Content.ToString();
+
+            }
+            else
+            {
+                //Date Gelmedi. Hata Var..
+                Console.WriteLine(date_result.Detail);
+            }
+
+
+            HtmlNode url_node = document.DocumentNode.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[1]/div/div[2]/div/a");
+            var url_result = UrlParser(url_node);
+            if (url_result.IsSuccess)
+            {
+                sum.url = url_result.Content.ToString();
+
+            }
+            else
+            {
+                //Url Gelmedi. Hata Var..
+                Console.WriteLine(url_result.Detail);
+            }
+
+            HtmlNode image_node = document.DocumentNode.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[1]/div/div[1]/img");
+            var image_result = ImageParser(image_node);
+            if (image_result.IsSuccess)
+            {
+                sum.image = image_result.Content.ToString();
+
+            }
+            else
+            {
+                //Image Gelmedi. Hata Var..
+                Console.WriteLine(image_result.Detail);
+            }
+
+            Console.WriteLine(sum.title);
+            Console.WriteLine(sum.url);
+            Console.WriteLine(sum.image);
+            Console.WriteLine(sum.date);
+
+
+        }
+
 
 
         public void ParseSummary()
@@ -96,8 +264,11 @@ namespace ParserAPI.Controller
                     }
                     else
                     {
-
+                        //Title Gelmedi. Hata Var..
+                        Console.WriteLine(title_result.Detail);
                     }
+
+
                 }
             }
             else
