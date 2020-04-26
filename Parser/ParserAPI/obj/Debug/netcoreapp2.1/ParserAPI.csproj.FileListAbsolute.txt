@@ -1,0 +1,11 @@
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\obj\Debug\netcoreapp2.1\ParserAPI.csprojAssemblyReference.cache
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\obj\Debug\netcoreapp2.1\ParserAPI.csproj.CoreCompileInputs.cache
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\obj\Debug\netcoreapp2.1\ParserAPI.AssemblyInfoInputs.cache
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\obj\Debug\netcoreapp2.1\ParserAPI.AssemblyInfo.cs
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\bin\Debug\netcoreapp2.1\ParserAPI.deps.json
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\bin\Debug\netcoreapp2.1\ParserAPI.runtimeconfig.json
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\bin\Debug\netcoreapp2.1\ParserAPI.runtimeconfig.dev.json
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\bin\Debug\netcoreapp2.1\ParserAPI.dll
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\bin\Debug\netcoreapp2.1\ParserAPI.pdb
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\obj\Debug\netcoreapp2.1\ParserAPI.dll
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\ParserAPI\obj\Debug\netcoreapp2.1\ParserAPI.pdb
