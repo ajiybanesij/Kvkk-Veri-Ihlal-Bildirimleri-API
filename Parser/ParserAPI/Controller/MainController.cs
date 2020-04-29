@@ -20,9 +20,10 @@ namespace ParserAPI.Controller
         {
             _adress = new Adresses();
             _client = new WebClient();
+            _client.Encoding = System.Text.Encoding.UTF8;
             _sumList = new List<Summary>();
         }
-        public bool String_ControlContent(string content)
+        private bool String_ControlContent(string content)
         {
 
             if (content != null || content.Length != 0)
@@ -35,7 +36,18 @@ namespace ParserAPI.Controller
             }
         }
 
-        public Result TitleParser(HtmlNode node)
+        private int PageCount()
+        {
+            _url = new Uri(_adress.Summary);
+            string htmlContent = _client.DownloadString(_url);
+
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(htmlContent);
+
+            List<HtmlNode> nodes = document.DocumentNode.SelectNodes("//a[contains(@class, 'page-link')]").ToList();
+            return nodes.Count - 2;
+        }
+        private Result TitleParser(HtmlNode node)
         {
             Result resultObj = new Result();
             if (node != null)
@@ -46,6 +58,7 @@ namespace ParserAPI.Controller
                 {
                     resultObj.IsSuccess = true;
                     resultObj.Detail = resultObj.Success;
+                    data_title = data_title.Replace(" - ", " – ");
                     resultObj.Content = data_title.Split(" – ")[1];
                     return resultObj;
                 }
@@ -67,7 +80,7 @@ namespace ParserAPI.Controller
             }
         }
 
-        public Result ObjParser(HtmlNode node)
+        private Result ObjParser(HtmlNode node)
         {
             Result resultObj = new Result();
             if (node != null)
@@ -99,7 +112,7 @@ namespace ParserAPI.Controller
             }
         }
 
-        public Result UrlParser(HtmlNode node)
+        private Result UrlParser(HtmlNode node)
         {
             Result resultObj = new Result();
             if (node != null)
@@ -131,7 +144,7 @@ namespace ParserAPI.Controller
             }
         }
 
-        public Result ImageParser(HtmlNode node)
+        private Result ImageParser(HtmlNode node)
         {
             Result resultObj = new Result();
             if (node != null)
@@ -162,16 +175,9 @@ namespace ParserAPI.Controller
                 return resultObj;
             }
         }
-        public void OneSummary()
+
+        private void OneSummary(HtmlDocument document)
         {
-            _url = new Uri(_adress.Summary);
-            _client.Encoding = System.Text.Encoding.UTF8;
-
-            string htmlContent = _client.DownloadString(_url);
-
-            HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(htmlContent);
-            //doc parametre olarak ver
             Summary sum = new Summary();
 
             HtmlNode title_node = document.DocumentNode.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[1]/div/div[2]/h3");
@@ -179,7 +185,6 @@ namespace ParserAPI.Controller
             if (title_result.IsSuccess)
             {
                 sum.title = title_result.Content.ToString();
-
             }
             else
             {
@@ -227,40 +232,27 @@ namespace ParserAPI.Controller
                 Console.WriteLine(image_result.Detail);
             }
 
-            Console.WriteLine(sum.title);
-            Console.WriteLine(sum.url);
-            Console.WriteLine(sum.image);
-            Console.WriteLine(sum.date);
+            _sumList.Add(sum);
 
 
         }
 
-
-
-        public void ParseSummary()
+        private void ParseSummary(HtmlDocument document)
         {
-            _url = new Uri(_adress.Summary);
-            _client.Encoding = System.Text.Encoding.UTF8;
-
-            string htmlContent = _client.DownloadString(_url);
-
-            HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(htmlContent);
-
-            List<HtmlNode> nodes = document.DocumentNode.SelectNodes("/html/body/div[3]/div/div[1]/div[1]").ToList();
+            List<HtmlNode> nodes = document.DocumentNode.SelectNodes("//div[contains(@class, 'col-lg-4 col-md-6 col-sm-12 pb-3')]").ToList();
 
             if (nodes != null || nodes.Count != 0)
             {
-                foreach (var item in nodes)
+                for (int i = 2; i <= nodes.Count + 1; i++)
                 {
                     Summary sum = new Summary();
-                    HtmlNode row = item.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[1]/div/div[2]/h3");
+
+                    HtmlNode row = document.DocumentNode.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[" + i + "]/div/div[2]/h4/a");
 
                     var title_result = TitleParser(row);
                     if (title_result.IsSuccess)
                     {
                         sum.title = title_result.Content.ToString();
-                        Console.WriteLine(sum.title);
                     }
                     else
                     {
@@ -268,6 +260,48 @@ namespace ParserAPI.Controller
                         Console.WriteLine(title_result.Detail);
                     }
 
+
+                    HtmlNode date_node = document.DocumentNode.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[" + i + "]/div/div[2]/p/span/a");
+                    var date_result = ObjParser(date_node);
+                    if (date_result.IsSuccess)
+                    {
+                        sum.date = date_result.Content.ToString();
+
+                    }
+                    else
+                    {
+                        //Date Gelmedi. Hata Var..
+                        Console.WriteLine(date_result.Detail);
+                    }
+
+
+                    HtmlNode url_node = document.DocumentNode.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[" + i + "]/div/div[2]/h4/a");
+                    var url_result = UrlParser(url_node);
+                    if (url_result.IsSuccess)
+                    {
+                        sum.url = url_result.Content.ToString();
+
+                    }
+                    else
+                    {
+                        //Url Gelmedi. Hata Var..
+                        Console.WriteLine(url_result.Detail);
+                    }
+
+                    HtmlNode image_node = document.DocumentNode.SelectSingleNode("/html/body/div[3]/div/div[1]/div[1]/div[" + i + "]/div/div[1]/a/img");
+                    var image_result = ImageParser(image_node);
+                    if (image_result.IsSuccess)
+                    {
+                        sum.image = image_result.Content.ToString();
+
+                    }
+                    else
+                    {
+                        //Image Gelmedi. Hata Var..
+                        Console.WriteLine(image_result.Detail);
+                    }
+
+                    _sumList.Add(sum);
 
                 }
             }
@@ -278,11 +312,29 @@ namespace ParserAPI.Controller
                 //Sunucu hatası olabilir.
                 Console.WriteLine("ERROR URL");
             }
+        }
 
+        public List<Summary> ParseData()
+        {
+            int page_count = PageCount();
 
+            for (int i = 1; i <= PageCount(); i++)
+            {
+                _url = new Uri(_adress.Summary + i);
+                string htmlContent = _client.DownloadString(_url);
+                HtmlDocument document = new HtmlDocument();
+                document.LoadHtml(htmlContent);
+                if (i == 1)
+                {
+                    OneSummary(document);
+                }
+                else
+                {
+                    ParseSummary(document);
+                }
+            }
+            return _sumList;
 
-
-            var a = 0;
         }
     }
 }
