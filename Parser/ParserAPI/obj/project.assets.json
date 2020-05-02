@@ -4008,9 +4008,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ajiyba\\Documents\\GitHub\\Kvkk-Veri--hlal-Bildirimleri-API\\Parser\\ParserAPI\\ParserAPI.csproj",
-      "projectName": "ParserAPI",
-      "projectPath": "C:\\Users\\Ajiyba\\Documents\\GitHub\\Kvkk-Veri--hlal-Bildirimleri-API\\Parser\\ParserAPI\\ParserAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Ajiyba\\Documents\\GitHub\\Kvkk-Veri--hlal-Bildirimleri-API\\Parser\\ParserAPI\\Parser.csproj",
+      "projectName": "Parser",
+      "projectPath": "C:\\Users\\Ajiyba\\Documents\\GitHub\\Kvkk-Veri--hlal-Bildirimleri-API\\Parser\\ParserAPI\\Parser.csproj",
       "packagesPath": "C:\\Users\\Ajiyba\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Ajiyba\\Documents\\GitHub\\Kvkk-Veri--hlal-Bildirimleri-API\\Parser\\ParserAPI\\obj\\",
       "projectStyle": "PackageReference",
