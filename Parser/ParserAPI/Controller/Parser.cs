@@ -186,8 +186,10 @@ namespace ParserAPI.Controller
 
         public List<Summary> ParseData()
         {
-            int page_count = PageCount();
+            Result result = new Result();
 
+            int page_count = PageCount();
+            
             for (int i = 1; i <= PageCount(); i++)
             {
                 _url = new Uri(_adress.Summary + i);

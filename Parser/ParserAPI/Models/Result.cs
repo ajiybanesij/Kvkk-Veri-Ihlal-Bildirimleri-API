@@ -8,7 +8,7 @@ namespace ParserAPI.Models
     {
         public bool IsSuccess { get; set; }
         public Object Content { get; set; }
-        public string Detail { get; set; }
+        public Object Detail { get; set; }
 
         public readonly string Success = "Success";
         
