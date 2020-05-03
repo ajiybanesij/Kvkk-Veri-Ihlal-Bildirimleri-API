@@ -9,9 +9,9 @@ namespace Parser.Helper
 {
     public class Parsers : IParsers
     {
-        public Result ImageParser(HtmlNode node)
+        public string ImageParser(HtmlNode node)
         {
-            Result resultObj = new Result();
+            
             try
             {
                 if (node != null)
@@ -20,42 +20,31 @@ namespace Parser.Helper
 
                     if (String_ControlContent(data_image_url))
                     {
-                        resultObj.IsSuccess = true;
-                        resultObj.Detail = resultObj.Success;
-                        resultObj.Content = "https://www.kvkk.gov.tr" + data_image_url;
-                        return resultObj;
+                        data_image_url = data_image_url.Replace("amp;", "");
+                        return "https://www.kvkk.gov.tr" + data_image_url;
+                         
                     }
                     else
                     {
-                        resultObj.IsSuccess = false;
-                        resultObj.Detail = "Url is Empty";
-                        resultObj.Content = null;
-                        return resultObj;
+                        return null;
                     }
 
                 }
                 else
                 {
-                    resultObj.IsSuccess = false;
-                    resultObj.Detail = "Url Node is Empty";
-                    resultObj.Content = null;
-                    return resultObj;
+                    return null;
                 }
             }
             catch (Exception e)
             {
-                resultObj.IsSuccess = false;
-                resultObj.Detail = e.ToString();
-                resultObj.Content = null;
-                return resultObj;
+                Console.WriteLine("Image Parser Error : " + e);
+                return null;
             }
 
         }
 
-        public Result ObjParser(HtmlNode node)
+        public string ObjParser(HtmlNode node)
         {
-            Result resultObj = new Result();
-
             try
             {
                 if (node != null)
@@ -64,40 +53,29 @@ namespace Parser.Helper
 
                     if (String_ControlContent(data_obj))
                     {
-                        resultObj.IsSuccess = true;
-                        resultObj.Detail = resultObj.Success;
-                        resultObj.Content = data_obj;
-                        return resultObj;
+                        return data_obj;
                     }
                     else
                     {
-                        resultObj.IsSuccess = false;
-                        resultObj.Detail = "Object is Empty";
-                        resultObj.Content = null;
-                        return resultObj;
+                        return null;
                     }
 
                 }
                 else
                 {
-                    resultObj.IsSuccess = false;
-                    resultObj.Detail = "Object Node is Empty";
-                    resultObj.Content = null;
-                    return resultObj;
+                    return null;
                 }
             }
             catch (Exception e)
             {
-                resultObj.IsSuccess = false;
-                resultObj.Detail = e.ToString();
-                resultObj.Content = null;
-                return resultObj;
+                Console.WriteLine("Object Parser Error : " + e);
+                return null;
             }
         }
 
-        public Result TitleParser(HtmlNode node)
+        public string TitleParser(HtmlNode node)
         {
-            Result resultObj = new Result();
+          
             try
             {
                 if (node != null)
@@ -106,41 +84,30 @@ namespace Parser.Helper
 
                     if (String_ControlContent(data_title))
                     {
-                        resultObj.IsSuccess = true;
-                        resultObj.Detail = resultObj.Success;
-                        data_title = data_title.Replace(" - ", " – ");
-                        resultObj.Content = data_title.Split(" – ")[1];
-                        return resultObj;
+                        data_title = data_title.Replace(" - ", " – ").Replace("\"","");
+                        return data_title.Split(" – ")[1];
                     }
                     else
                     {
-                        resultObj.IsSuccess = false;
-                        resultObj.Detail = "Title is Empty";
-                        resultObj.Content = null;
-                        return resultObj;
+                        return null;
                     }
 
                 }
                 else
                 {
-                    resultObj.IsSuccess = false;
-                    resultObj.Detail = "Title Node is Empty";
-                    resultObj.Content = null;
-                    return resultObj;
+                    return null;
                 };
             }
             catch (Exception e)
             {
-                resultObj.IsSuccess = false;
-                resultObj.Detail = e.ToString();
-                resultObj.Content = null;
-                return resultObj;
+                Console.WriteLine("Title Parser Error : " + e);
+                return null;
             }
         }
 
-        public Result UrlParser(HtmlNode node)
+        public string UrlParser(HtmlNode node)
         {
-            Result resultObj = new Result();    
+             
             try
             {
                 if (node != null)
@@ -149,34 +116,24 @@ namespace Parser.Helper
 
                     if (String_ControlContent(data_url))
                     {
-                        resultObj.IsSuccess = true;
-                        resultObj.Detail = resultObj.Success;
-                        resultObj.Content = "https://www.kvkk.gov.tr" + data_url;
-                        return resultObj;
+                        data_url = data_url.Replace("amp;", "");
+                        return "https://www.kvkk.gov.tr" + data_url;
                     }
                     else
                     {
-                        resultObj.IsSuccess = false;
-                        resultObj.Detail = "Url is Empty";
-                        resultObj.Content = null;
-                        return resultObj;
+                        return null;
                     }
 
                 }
                 else
                 {
-                    resultObj.IsSuccess = false;
-                    resultObj.Detail = "Url Node is Empty";
-                    resultObj.Content = null;
-                    return resultObj;
+                    return null;
                 }
             }
             catch (Exception e)
             {
-                resultObj.IsSuccess = false;
-                resultObj.Detail = e.ToString();
-                resultObj.Content = null;
-                return resultObj;
+                Console.WriteLine("Url Parser Error : " + e);
+                return null;
             }
         }
 

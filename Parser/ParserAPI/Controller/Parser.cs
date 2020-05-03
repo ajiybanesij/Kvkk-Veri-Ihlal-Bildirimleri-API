@@ -18,6 +18,7 @@ namespace ParserAPI.Controller
         private WebClient _client;
         private List<Summary> _sumList;
         private xPaths _xpath;
+        private List<string> _errorList;
         public Parser()
         {
             _adress = new Adresses();
@@ -25,6 +26,7 @@ namespace ParserAPI.Controller
             _client.Encoding = Encoding.UTF8;
             _sumList = new List<Summary>();
             _xpath = new xPaths();
+            _errorList = new List<string>();
         }
 
 
@@ -37,64 +39,75 @@ namespace ParserAPI.Controller
             document.LoadHtml(htmlContent);
 
             List<HtmlNode> nodes = document.DocumentNode.SelectNodes(_xpath.count).ToList();
-            return nodes.Count - 2;
+            if (nodes.Count == 0 || nodes == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return nodes.Count - 2;
+            }
+
         }
 
 
         private void OneSummary(HtmlDocument document)
         {
             Summary sum = new Summary();
-
             HtmlNode title_node = document.DocumentNode.SelectSingleNode(_xpath.big_ihlal_title);
             var title_result = TitleParser(title_node);
-            if (title_result.IsSuccess)
+            if (!string.IsNullOrEmpty(title_result))
             {
-                sum.title = title_result.Content.ToString();
+                sum.title = title_result;
             }
             else
             {
-                //Title Gelmedi. Hata Var..
-                Console.WriteLine(title_result.Detail);
+                //Title Gelmedi. Hata Var...
+                _errorList.Add("Title Error");
+                Console.WriteLine(title_result);
             }
 
             HtmlNode date_node = document.DocumentNode.SelectSingleNode(_xpath.big_ihlal_date);
             var date_result = ObjParser(date_node);
-            if (date_result.IsSuccess)
+            if (!string.IsNullOrEmpty(date_result))
             {
-                sum.date = date_result.Content.ToString();
+                sum.date = date_result;
 
             }
             else
             {
-                //Date Gelmedi. Hata Var..
-                Console.WriteLine(date_result.Detail);
+                //Date Gelmedi. Hata Var...
+                _errorList.Add("Date Error");
+                Console.WriteLine(date_result);
             }
 
 
             HtmlNode url_node = document.DocumentNode.SelectSingleNode(_xpath.big_ihlal_url);
             var url_result = UrlParser(url_node);
-            if (url_result.IsSuccess)
+            if (!string.IsNullOrEmpty(url_result))
             {
-                sum.url = url_result.Content.ToString();
+                sum.url = url_result;
 
             }
             else
             {
-                //Url Gelmedi. Hata Var..
-                Console.WriteLine(url_result.Detail);
+                //Url Gelmedi. Hata Var...
+                _errorList.Add("Url Error");
+                Console.WriteLine(url_result);
             }
 
             HtmlNode image_node = document.DocumentNode.SelectSingleNode(_xpath.big_ihlal_img);
             var image_result = ImageParser(image_node);
-            if (image_result.IsSuccess)
+            if (!string.IsNullOrEmpty(image_result))
             {
-                sum.image = image_result.Content.ToString();
+                sum.image = image_result;
 
             }
             else
             {
-                //Image Gelmedi. Hata Var..
-                Console.WriteLine(image_result.Detail);
+                //Image Gelmedi. Hata Var...
+                _errorList.Add("Image Error");
+                Console.WriteLine(image_result);
             }
 
             _sumList.Add(sum);
@@ -119,56 +132,59 @@ namespace ParserAPI.Controller
 
 
                     var title_result = TitleParser(row);
-                    if (title_result.IsSuccess)
+                    if (!string.IsNullOrEmpty(title_result))
                     {
-                        sum.title = title_result.Content.ToString();
+                        sum.title = title_result;
                     }
                     else
                     {
-                        //Title Gelmedi. Hata Var..
-                        Console.WriteLine(title_result.Detail);
+                        //Title Gelmedi. Hata Var...
+                        _errorList.Add("Title Error");
+                        Console.WriteLine(title_result);
                     }
 
                     string items_date = String.Format(_xpath.items_date, i);
                     HtmlNode date_node = document.DocumentNode.SelectSingleNode(items_date);
                     var date_result = ObjParser(date_node);
-                    if (date_result.IsSuccess)
+                    if (!string.IsNullOrEmpty(date_result))
                     {
-                        sum.date = date_result.Content.ToString();
-
+                        sum.date = date_result;
                     }
                     else
                     {
-                        //Date Gelmedi. Hata Var..
-                        Console.WriteLine(date_result.Detail);
+                        //Date Gelmedi. Hata Var...
+                        _errorList.Add("Date Error");
+                        Console.WriteLine(date_result);
                     }
 
                     string items_url = String.Format(_xpath.items_url, i);
                     HtmlNode url_node = document.DocumentNode.SelectSingleNode(items_url);
                     var url_result = UrlParser(url_node);
-                    if (url_result.IsSuccess)
+                    if (!string.IsNullOrEmpty(url_result))
                     {
-                        sum.url = url_result.Content.ToString();
+                        sum.url = url_result;
 
                     }
                     else
                     {
-                        //Url Gelmedi. Hata Var..
-                        Console.WriteLine(url_result.Detail);
+                        //Url Gelmedi. Hata Var...
+                        _errorList.Add("Url Error");
+                        Console.WriteLine(url_result);
                     }
 
                     string items_image = String.Format(_xpath.items_image, i);
                     HtmlNode image_node = document.DocumentNode.SelectSingleNode(items_image);
                     var image_result = ImageParser(image_node);
-                    if (image_result.IsSuccess)
+                    if (!string.IsNullOrEmpty(image_result))
                     {
-                        sum.image = image_result.Content.ToString();
+                        sum.image = image_result;
 
                     }
                     else
                     {
-                        //Image Gelmedi. Hata Var..
-                        Console.WriteLine(image_result.Detail);
+                        //Image Gelmedi. Hata Var...
+                        _errorList.Add("Image Error");
+                        Console.WriteLine(image_result);
                     }
 
                     _sumList.Add(sum);
@@ -184,28 +200,47 @@ namespace ParserAPI.Controller
             }
         }
 
-        public List<Summary> ParseData()
+        public Result<Summary> ParseData()
         {
-            Result result = new Result();
-
             int page_count = PageCount();
-            
-            for (int i = 1; i <= PageCount(); i++)
+            if (page_count != -1)
             {
-                _url = new Uri(_adress.Summary + i);
-                string htmlContent = _client.DownloadString(_url);
-                HtmlDocument document = new HtmlDocument();
-                document.LoadHtml(htmlContent);
-                if (i == 1)
+                for (int i = 1; i <= PageCount(); i++)
                 {
-                    OneSummary(document);
+                    _url = new Uri(_adress.Summary + i);
+                    string htmlContent = _client.DownloadString(_url);
+                    HtmlDocument document = new HtmlDocument();
+                    document.LoadHtml(htmlContent);
+                    if (i == 1)
+                    {
+                        OneSummary(document);
+                    }
+                    else
+                    {
+                        ParseSummary(document);
+                    }
+                }
+                if (_sumList.Count != 0 && _errorList.Count == 0)
+                {
+                    Result<Summary> result = new Result<Summary>();
+                    result.Content = _sumList;
+                    result.IsSuccess = true;
+                    result.Detail = "Success";
+                    return result;
                 }
                 else
                 {
-                    ParseSummary(document);
+                    Result<Summary> result = new Result<Summary>();
+                    result.Content = _sumList;
+                    result.IsSuccess = true;
+                    result.Detail = _errorList;
+                    return result;
                 }
             }
-            return _sumList;
+            else
+            {
+                return null;
+            }
 
         }
     }
