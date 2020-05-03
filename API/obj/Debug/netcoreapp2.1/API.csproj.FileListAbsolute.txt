@@ -1,0 +1,17 @@
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\bin\Debug\netcoreapp2.1\API.deps.json
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\bin\Debug\netcoreapp2.1\API.runtimeconfig.json
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\bin\Debug\netcoreapp2.1\API.runtimeconfig.dev.json
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\bin\Debug\netcoreapp2.1\API.dll
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\bin\Debug\netcoreapp2.1\API.pdb
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\bin\Debug\netcoreapp2.1\Parser.dll
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\bin\Debug\netcoreapp2.1\Parser.pdb
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.csprojAssemblyReference.cache
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.csproj.CoreCompileInputs.cache
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.RazorAssemblyInfo.cache
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.RazorAssemblyInfo.cs
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.AssemblyInfoInputs.cache
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.AssemblyInfo.cs
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.RazorTargetAssemblyInfo.cache
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.csproj.CopyComplete
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.dll
+C:\Users\Ajiyba\Documents\GitHub\Kvkk-Veri--hlal-Bildirimleri-API\Parser\API\obj\Debug\netcoreapp2.1\API.pdb
